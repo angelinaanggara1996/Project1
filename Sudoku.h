@@ -1,19 +1,20 @@
 #ifndef SUDOKU_H
 #define SUDOKU_H
-#include<iostream>
-using namespace std;
 
 class Sudoku
 {
 public:
 		void GiveQuestion();
-		void ReadQ();
-		void Check();
 		void ReadIn();
 		void Solve();
-		static const int sudokuSize=144;
+private:
+		void Check();
 		int ans[12][12];
-		bool solvable;
-		bool exactly;
+		int Ques[12][12];
+		static int myQ[12][12];
+		void randomRow(int , int);
+		bool row(int i,int j, int k);
+		bool col(int i, int j, int k);
+		bool cube(int i,int j, int k);
 };	
 #endif
