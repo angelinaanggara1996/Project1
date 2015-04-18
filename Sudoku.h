@@ -11,8 +11,10 @@ private:
 		void Check();
 		int ans[12][12];
 		int Ques[12][12];
+		int ap[144];
 		static int myQ[12][12];
 		void randomRow(int , int);
+		void Random();
 		bool row(int i,int j, int k);
 		bool col(int i, int j, int k);
 		bool cube(int i,int j, int k);

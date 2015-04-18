@@ -1,0 +1,4 @@
+first i declare the question first by initialize it the static int type, then as the requirement,i make 3 function, such as, GiveQuestion(),ReadIn(),Solve(). Then i create the header file "Sudoku.h"
+i write the function GiveQuestion() by using the static myQ, then random it by row.. because of im not so good in randoming array so that i just random it by row.. then randomize it to have zero value to be a question.
+next, i write the ReadIn() function by using stdin, and read one by one the arrat of the question.
+until it takes the question, i started to think about how to solve it, then 

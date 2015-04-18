@@ -1,7 +1,7 @@
 #include<iostream>
 #include "Sudoku.h"
 
-main()
+int main()
 {
 	Sudoku ss;
 	ss.GiveQuestion();
