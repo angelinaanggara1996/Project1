@@ -1,5 +1,6 @@
 #include "Sudoku.h"
 #include <cstdlib>
+#include <cstring>
 #include <ctime>
 #include <iostream>
 using namespace std;
@@ -170,6 +171,7 @@ int Sudoku::cube(int square,int s,int ss)
     }
     return 1;
 }
+
 //solving the sudoku
 void Sudoku::SolveSudoku()
 {
