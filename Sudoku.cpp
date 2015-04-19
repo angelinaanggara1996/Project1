@@ -1,8 +1,6 @@
 #include "Sudoku.h"
-#include<fstream>
 #include <cstdlib>
 #include <ctime>
-#include<cstring>
 #include <iostream>
 using namespace std;
 int Sudoku::myQ[12][12]={{4, 2, 6, 8, 7, 3, 9, 5, 1, -1, -1, -1},
@@ -20,22 +18,61 @@ int Sudoku::myQ[12][12]={{4, 2, 6, 8, 7, 3, 9, 5, 1, -1, -1, -1},
 //GiveQuestion
 void Sudoku::GiveQuestion()
 {
-	int tmp=0;
+	int tmp=0,a,b;
 	int z=25;
 	srand(time(NULL));
-	int x=rand()%1;
-	int y=rand()%1+2;
-	randomRow(x,y);
-	while(tmp<z){
+	a=rand()%3+1;	
+	b=rand()%3+1;
+	switch(a)
+	{
+	case 1: {
+				randomRow(0,1);
+				randomRow(2,3);
+				break;
+			}
+	case 2: {
+				randomRow(0,2);
+				randomRow(1,3);
+				break;
+			}
+	case 3: {
+				randomRow(0,3);
+				randomRow(1,2);
+				break;
+			}
+	}
+	switch(b)
+	{
+	case 1: {
+			randomCol(0,1);
+			randomCol(2,3);
+			break;
+			}
+	case 2: {
+			randomCol(0,2);
+			randomCol(1,3);
+			break;
+			}
+	case 3: {
+			randomCol(0,3);
+			randomCol(1,2);
+			}
+	}
+	while(tmp<z)
+	{
 		int a=rand()%12;
 		int b=rand()%12;
 		if(myQ[a][b]==0 || myQ[a][b]==-1) continue;
-		else 
+		else
+		{
 			myQ[a][b]=0;
-			++tmp; 
+			++tmp;
+		}
 	}
-	for(int i=0;i<12;++i){
-		for(int j=0;j<12;++j){
+	for(int i=0;i<12;++i)
+	{
+		for(int j=0;j<12;++j)
+		{
 			cout<<myQ[i][j]<<" ";
 		}
 		cout<<endl;
@@ -45,201 +82,166 @@ void Sudoku::GiveQuestion()
 //randoming the give question row
 void Sudoku::randomRow(int a, int b)
 {
-	for(int i=a*3,x=0,y=b*3;x<3; ++i,++x,++y){
-		for(int j=0;j<12;++j){
+	for(int i=a*3,x=0,y=b*3;x<3; ++i,++x,++y)
+	{
+		for(int j=0;j<12;++j)
+		{
 			int tmp=myQ[i][j];
 			myQ[i][j]=myQ[y][j];
 			myQ[y][j]=tmp;
 		}
 	}
 }
-void Sudoku::Random()
+//randoming the column(column exchange)
+void Sudoku::randomCol(int a,int b)
 {
-	int i,j,k,a,a1,a2,s1[12],s2[12],ap[144];
-	srand(time(NULL));
-	a=rand()%5; //choose the order random
-	ifstream in("Q.txt",ios::in);
-	ofstream out("file.out",ios::out);
-	if(a==0)
-		for(int i=0;i<144;++i)
-				in>>ap[i];
-	if(a==1)
-		for(int i=143;i>=0;--i)
-				in>>ap[i];
-	if(a==2)
-		for(int i=0;i<12;++i)//from the left to the right
-				for(j=i;j<144;j+=12)
-					in>>ap[j];
-	if(a==3)
-		for(int i=11;i>=0;--i)//from up to down,left to right
-				for(j=i;j<144;j=j+12)
-					in>>ap[j];
-	if(a==4)
-		for(int i=11;i<144;i=i+12)
-				for(j=i;j>=(i-11);j--)
-					in>>ap[j];
-	for (k=0;k<4;++k)
+	for(int j=a*3,x=0,y=b*3;x<3;++j,++x,++y)
 	{
 		for(int i=0;i<12;++i)
-			s1[i]=-1;
-		for(int i=0;i<12;++i)
-			s2[i]=-1;
-		a1=rand()%9+1;
-		do
 		{
-			a2=rand()%9+1;
-		}while(a1==a2);
-		int j=0;
-		for(int i=0;i<144;++i)
-		{	
-				if(ap[i]==a1)
-				{
-					s1[j]=i;
-					j++;
-				}
+			int tmp=myQ[i][j];
+			myQ[i][j]=myQ[i][y];
+			myQ[i][y]=tmp;
 		}
-		for(int i=0;i<144;++i)
-		{
-				if(ap[i]==a2)
-				{
-					s2[j]=i;
-					j++;
-				}
-		}
-		for(int i=0;i<12;i++)
-				if(s1[i]!=(-1)) ap[s1[i]]=a2;
-		for(int i=0;i<12;++i)
-				if(s2[i]!=(-1)) ap[s2[i]]=a1;
-	}
-	for(int i=0;i<144;i++)
-	{
-			out<<ap[i]<<" ";
-		if(i%12==11)
-			out<<endl;
 	}
 }
-//Check whether it is solvable or not
-/*void Sudoku::Check()
+//trying to row and column exchange
+/*void Sudoku::Rand(int n1)
 {
-	if (!sol) cout<<0<<endl;
-	else if (!ex){
-		cout<<1<<endl;
-		for(int i=0;i<12;++i)
+	for(int i=n1*3, a=n1*3+1,m=n1*3+2; n1<4;++n1)
+		for(int j=0,b=3, n=6,x=0;x<3;++j,++b,++n)
 		{
-			for(int j=0;j<12;++j)
-				cout<<Ques[i][j]<<" ";
-			cout<<endl;
+			int tmp=myQ[i][j];
+			myQ[i][j]=myQ[a][b];
+			myQ[a][b]=myQ[m][n];
+			myQ[m][n]=tmp;
 		}
-	}
-	else 
-		cout<<2<<"\n";
 }*/
-//checking the row number is from 1 to 9
-bool Sudoku::row(int i, int j, int k)
-{
-	for (int a=0;a<12;++a)
-	{
-		if(Ques[i][a]==k)return false;
-	}
-	return true;
-}
-//checking the column number is from 1 to 9 or not
-bool Sudoku::col(int i,int j, int k)
-{
-	for(int a=0;a<12;++a)
-	{
-		if(Ques[a][j]==k) return false;
-	}
-	return true;
-}
-//checking the 3X3 cube is having the number 1 to 9 or not
-bool Sudoku::cube(int i,int j, int k)
-{
-	int m=i-(i%3), n=j-(j%3);
-	for (int h=0;h<3;++h)
-	{
-		for(int g=0;g<3;++g)
-		{
-			if(Ques[m+h][n+g]==k) return false;
-		}
-	}
-	return true;
-}
 //read other people question
 void Sudoku::ReadIn()
 {
-	/*for(int i=0; i<12;++i){
-		for(int j=0; j<12; ++j){
-			cin>>Ques[i][j];			
-		}
-	}*/
-	ifstream in("Q.txt",ios::in);
-	for(int i=0;i<12;++i){
-		for(int j=0;j<12;++j){
-			in>>Ques[i][j];
-		}
-	}
-	in.close();
+    begin[0] = 0;
+    int i,j;
+    for(i=0;i<12;i++)
+	{
+        for(j=0;j<12;j++)
+		{
+        	Ques[i][j] = 0;
+        	ans[i][j] = 0;
+        }
+    }
+    for(i=0;i<12;i++)
+	{
+        for(j=0;j<12;j++)
+        	cin>>Ques[i][j];
+    }
 }
-//solving the question
+//checking row is from 1-9 or not
+int Sudoku::row(int rw,int r)
+{
+    int j;
+    for(j=0;j<12;j++)
+	{
+        if(Ques[r][j] == rw)
+        return 0;
+    }
+    return 1;
+}
+//check column is 1-9 or not
+int Sudoku::column(int col,int c)
+{
+    int i;
+    for(i=0;i<12;i++)
+	{
+        if(Ques[i][c] == col)
+        return 0;
+    }
+    return 1;
+}
+//checking if in the 3x3 cube is from 1 to 9 or not
+int Sudoku::cube(int square,int s,int ss)
+{
+    int x=s-(s%3),y=ss-(ss%3);
+    for(int i = 0; i < 3; i++)
+	{
+        for (int j = 0; j < 3; j++)
+            if(Ques[x+i][y+j] == square)
+            	return 0;
+    }
+    return 1;
+}
+//solving the sudoku
+void Sudoku::SolveSudoku()
+{
+    int i,j;
+    int num = 0;
+    for(i=0;i<12;i++)
+	{
+        for(j=0;j<12;j++)
+		{
+            if (Ques[i][j] != 0)
+                num++;
+        }
+    }
+    if(num == 144)
+	{
+        begin[0]++;
+        if(begin[0] == 2)
+		{
+        	cout<<2<<endl; // if there is more than 1 solution
+            return;
+        }
+        for(i=0;i<12;i++)
+		{
+            for(j=0;j<12;j++)
+            	ans[i][j]=Ques[i][j];
+        }
+        return;
+    }
+
+    int insert;
+
+    for(i=11;i>=0;i--)
+	{
+        for(j=11;j>=0;j--)
+		{
+			if(Ques[i][j]==(-1)) continue;
+            if(Ques[i][j] == 0)
+			{
+                for(insert=1;insert<=9;insert++)
+				{
+                	if(row(insert,i) == 1 && column(insert,j) == 1 && cube(insert,i,j) == 1)
+					{
+                    	Ques[i][j]=insert;
+                        SolveSudoku(); //recursive
+                        Ques[i][j] = 0;
+                    }
+                }
+                return;
+            }
+        }
+    }
+}
+//print out the answer
+void Sudoku::print()
+{
+    int i,j;
+    for(i=0;i<12;i++)
+	{
+        for(j=0;j<12;j++)
+     	   cout<<ans[i][j]<<" ";
+		cout<<endl;
+    }
+}
+
 void Sudoku::Solve()
 {
-	bool sol= true;
-	int zero=0,x=0,tmp;
-	for(int l=0;l<2;l++)
+	SolveSudoku();
+	if(begin[0] == 0)
+    	cout<<"0"<<endl;
+	else if(begin[0] == 1)
 	{
-		while(zero && sol)
-		{
-			sol=false;
-			for(int i=0; i<12; i++){
-				for(int j=0; j<12; j++){
-					if(Ques[i][j]!=0) continue;
-					tmp=0;
-					for(int n=1 ;n<10;n++){
-						if(row(i,j,n) && col(i,j,n) && cube(i,j,n))
-						{
-							if(tmp==0) tmp=n;
-							else {
-								tmp=0;
-								break;
-							}
-						}
-						break;
-					}
-					if(tmp!=0){
-						Ques[i][j]=tmp;
-						sol=true;
-						zero--;
-					}
-				}
-			}
-		}
-		for(int i=0; i<12;i++){
-			for(int j=0; j<12;j++){
-				if(!x){
-					ans[i][j]==Ques[i][j];
-				}
-			}
-		}
+    	cout<<"1"<<endl;
+   		print();
 	}
-	for(int i=0;i<12;++i){
-		for(int j; j<12;++j){
-			if(Ques[i][j]!=ans[i][j]){
-				zero=2;
-				break;
-			}
-		}
-	}	
-	if (!sol) cout<<0<<endl;
-	else if (!zero){
-		cout<<1<<endl;
-		for(int i=0;i<12;++i)
-		{
-			for(int j=0;j<12;++j)
-				cout<<Ques[i][j]<<" ";
-			cout<<endl;
-		}
-	}
-	else if(zero==2)
-		cout<<2<<"\n";
 }

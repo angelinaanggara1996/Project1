@@ -1,4 +1,7 @@
-first i declare the question first by initialize it the static int type, then as the requirement,i make 3 function, such as, GiveQuestion(),ReadIn(),Solve(). Then i create the header file "Sudoku.h"
-i write the function GiveQuestion() by using the static myQ, then random it by row.. because of im not so good in randoming array so that i just random it by row.. then randomize it to have zero value to be a question.
-next, i write the ReadIn() function by using stdin, and read one by one the arrat of the question.
-until it takes the question, i started to think about how to solve it, then 
+First,I declare the question first by initialize it the static int type, then as the requirement,I make 3 function, such as, GiveQuestion(),ReadIn(),Solve(). Then I create the header file "Sudoku.h"
+Second,I wrote the function GiveQuestion() by using the static myQ[12][12], then random it by row and column.. Because of I'm not so good in randoming array so that I just random it by row and column.. and I'm still trying to randomize it by number,but it fails.. then,I randomize it to have zero value to be a question.
+Next, I wrote the ReadIn() function by using stdin, and read one by one the array of the question.
+until it takes the question, and I started to think about how to solve it.
+In the process of solving the sudoku, I have trying to get the answer,but it makes me confusing to get the right answer, then I try to get the solution by inserting number from 1 to 9. and then see if it is solvable or not.
+To compile it,you just type make in the command line, because I have made a makefile file.
+To execute it, I used redirection. So that, in command line type ./give_question > test and then ./solve < test 

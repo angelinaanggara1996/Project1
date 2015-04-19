@@ -8,15 +8,17 @@ public:
 		void ReadIn();
 		void Solve();
 private:
-		void Check();
 		int ans[12][12];
 		int Ques[12][12];
-		int ap[144];
 		static int myQ[12][12];
 		void randomRow(int , int);
-		void Random();
-		bool row(int i,int j, int k);
-		bool col(int i, int j, int k);
-		bool cube(int i,int j, int k);
+		void randomCol(int , int);
+		void Rand(int);
+		void SolveSudoku();
+		void print();
+		int begin[0];
+		int row(int, int);
+		int column(int, int);
+		int cube(int,int,int);
 };	
 #endif
